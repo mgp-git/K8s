@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  namespace: flask-app
+  name: flask-app
+  labels:
+  - app: flask-ipl-app
+spec:
+  contianers:
+  - name: ipl-app 
+    image: punithmgp/flask-ipl:v1.0
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+    - name: db-volume
+      mountPath: /usr/src/database 
+    ports:
+    - containerPort: 5000
+      name: flask-port
+      # Default protocol is TCP
+      protocol: TCP
+
+  volumes:
+  - name: db-volume
+    # temporary, update the volume type to pv
+    emptyDir: {}
+  # default dnsPolicy is ClusterFirst
+  dnsPolicy: ClusterFirst
+  
