@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-ipl-cluster-svc
+spec:
+  selector:
+    app: flask-ipl-app
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 5000
+      protocol: TCP

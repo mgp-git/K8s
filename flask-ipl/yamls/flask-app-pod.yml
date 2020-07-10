@@ -1,15 +1,22 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  namespace: flask-app
+  #namespace: flask-app
   name: flask-app
   labels:
-  - app: flask-ipl-app
+    app: flask-ipl-app
 spec:
-  contianers:
+  containers:
   - name: ipl-app 
     image: punithmgp/flask-ipl:v1.0
     imagePullPolicy: IfNotPresent
+    resources:
+      limits:
+        cpu: "200m"
+        memory: "128Mi"
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
     volumeMounts:
     - name: db-volume
       mountPath: /usr/src/database 

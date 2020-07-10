@@ -1,0 +1,43 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: flask-app-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target:  /
+spec:
+  # backend (default) shall typical be an ingress-controller's config?
+  # backend:
+  #  serviceName: nginx-ingress-default-backend
+  #  servicePort: 80
+  rules:
+  # when we specify 'host', the ingress rule will be applicable only to the host mentioned.
+  # ipl.mgp-flask-app.com host is an example of sub-domain routing.
+  # host is mandatory for sub-domain based routing.
+  - host: ipl.mgp-flask-app.com
+    http:
+      paths:
+      - backend:
+          serviceName: flask-app
+          servicePort: 80
+  #- host: t20.mgp-flask-app.com
+  #  http:
+  #    paths:
+  #    - backend:
+  #       serviceName: <t20 service name>
+  #       servicePort: <Port>
+
+# Path based Routing example below. 
+# If host is not mentioned then the rules will be applicable to all HTTP traffic.
+
+  #- host: mgp-flask-app.com
+  #  http:
+  #    paths:
+  #    - path: /ipl
+  #      backend:
+  #        serviceName: flask-app
+  #        servicePort: 80
+  #    - path: /t20
+  #      backend:
+  #        serviceName: <t20 service name>
+  #        servicePort: <Port>
+

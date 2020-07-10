@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: flask-ipl-app
+  template:
+    metadata:
+      labels:
+        app: flask-ipl-app
+    spec:
+      containers:
+      - image: punithmgp/flask-ipl:v1.0
+        name: ipl-app
+        imagePullPolicy: ifNotPresent
+        resources:
+          limits:
+            cpu: "200m"
+            memory: "128Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        volumeMounts:
+        - name: db-volume
+          mountPath: /usr/src/database
+      volumes:
+      - name: db-volume
+        emptyDir: {} 
+      dnsPolicy: clusterFirst
+       
