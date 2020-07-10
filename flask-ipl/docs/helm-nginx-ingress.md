@@ -17,7 +17,7 @@ Install helm in the cluster first, one of the ways is through package managers.
   tar vxf helm-v3.0.2-linux-amd64.tar.gz
   sudo mv linux-amd64/helm /usr/local/bin
 
-# By default helm3 doesn't add any repo.
+ ** By default helm3 doesn't add any repo. **
 
 Now install the nginx ingress-controller using helm.
 	helm repo add stable https://kubernetes-charts.storage.googleapis.com/
