@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: flask-app-cm
+data:
+  number_of_teams: "8"
+  total_matches: "64"
+

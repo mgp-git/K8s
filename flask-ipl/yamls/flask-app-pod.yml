@@ -17,9 +17,22 @@ spec:
       requests:
         cpu: "100m"
         memory: "128Mi"
+    envFrom:
+    # Secret 'key' names are used as ENV variables names, we cannot use explicit name variable like in "env" option.
+    - secretRef:
+        name: flask-app-secret
+    env:
+    # name is the ENV variable name which will be read by the app.
+    - name: NO_OF_TEAMS
+      valueFrom:
+        configMapKeyRef:
+          name: flask-app-cm
+          key: number_of_teams
     volumeMounts:
     - name: db-volume
-      mountPath: /usr/src/database 
+      mountPath: /usr/src/database
+    - name: secret-volume
+      mountPath: /usr/src/secret
     ports:
     - containerPort: 5000
       name: flask-port
@@ -30,6 +43,10 @@ spec:
   - name: db-volume
     # temporary, update the volume type to pv
     emptyDir: {}
+  - name: secret-volume
+    secret:
+      # all the keys in the Secret are mounted as files at /usr/src/secret
+      secretName: flask-app-secret
   # default dnsPolicy is ClusterFirst
   dnsPolicy: ClusterFirst
   

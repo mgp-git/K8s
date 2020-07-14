@@ -27,11 +27,28 @@ spec:
         ports:
         - containerPort: 5000
           protocol: TCP
+        env:
+        # name is the ENV variable name which will be read by the app.
+        - name: NO_OF_TEAMS
+          valueFrom:
+            configMapKeyRef:
+              name: flask-app-cm
+              key: number_of_teams
+        envFrom:
+        # Secret 'key' names are used as ENV variables names, we cannot use explicit name variable like in "env" option.
+        - secretRef:
+            name: flask-app-secret
+
         volumeMounts:
         - name: db-volume
           mountPath: /usr/src/database
+        - name: secret-volume
+          mountPath: /usr/src/secret
       volumes:
       - name: db-volume
-        emptyDir: {} 
-      dnsPolicy: clusterFirst
-       
+        emptyDir: {}
+      - name: secret-volume
+        secret:
+          secretName: flask-app-secret
+      dnsPolicy: ClusterFirst
+
