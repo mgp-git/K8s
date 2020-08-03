@@ -1,0 +1,26 @@
+# Pre-requisite:
+# Create NFS server at 192.168.5.11 (apt install nfs-kernel-server), & mkdir -p /srv/nfs4/kubedata
+# and udpate /etc/exports file ( /srv/nfs4/kubedata 192.168.5.0/24(rw,sync,no_subtree_check,crossmnt) )
+# save exports file and export the shares (sudo exportfs -ra)
+
+# All the Worker nodes must have nfs-common utility installed, otherwise mount will fail with below error
+# "Warning  FailedMount  39s (x3 over 4m43s)  kubelet, worker-1  (combined from similar events):
+# MountVolume.SetUp failed for volume "nfs-pv-static" : mount failed: exit status 32"
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  # name must be in DNS subdomain format i.e., < 253 chars,
+  # contains only lowercase alphanumeric, '-', or '.' 
+  name: pv-nfs-static
+spec:
+  accessModes:
+  - ReadWriteOnce
+  capacity:
+    storage: 100Mi
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: manual
+  nfs:
+    server: 192.168.5.11
+    path: /srv/nfs4/kubedata
+

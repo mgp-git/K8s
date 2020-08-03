@@ -46,7 +46,9 @@ spec:
           mountPath: /usr/src/secret
       volumes:
       - name: db-volume
-        emptyDir: {}
+        # emptyDir: {}
+        persistentVolumeClaim:
+          claimName: pvc-nfs-static 
       - name: secret-volume
         secret:
           secretName: flask-app-secret

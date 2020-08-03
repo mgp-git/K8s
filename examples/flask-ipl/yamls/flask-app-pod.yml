@@ -42,7 +42,9 @@ spec:
   volumes:
   - name: db-volume
     # temporary, update the volume type to pv
-    emptyDir: {}
+    # emptyDir: {}
+    persistentVolumeClaim:
+      claimName: pvc-nfs-static
   - name: secret-volume
     secret:
       # all the keys in the Secret are mounted as files at /usr/src/secret
