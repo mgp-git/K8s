@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Pod
 metadata:
-  #namespace: flask-app
+  #namespace: default
   name: flask-app
   labels:
     app: flask-ipl-app
 spec:
   containers:
-  - name: ipl-app 
+  - name: ipl-app
     image: punithmgp/flask-ipl:v1.0
     imagePullPolicy: IfNotPresent
     resources:
@@ -33,10 +33,13 @@ spec:
       mountPath: /usr/src/database
     - name: secret-volume
       mountPath: /usr/src/secret
+    - name: cm-volume
+      mountPath: /usr/src/cm
+      subPath: cm
     ports:
     - containerPort: 5000
       name: flask-port
-      # Default protocol is TCP
+      # Default protocol is TCP 
       protocol: TCP
 
   volumes:
@@ -49,6 +52,13 @@ spec:
     secret:
       # all the keys in the Secret are mounted as files at /usr/src/secret
       secretName: flask-app-secret
+  - name: cm-volume
+    configMap:
+      name: flask-app-cm
+      items:
+      - key: number_of_teams
+        # Path shall match with subPath in volumeMount otherwise no files will be created
+        path: cm
   # default dnsPolicy is ClusterFirst
   dnsPolicy: ClusterFirst
-  
+
