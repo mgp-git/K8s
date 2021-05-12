@@ -46,10 +46,10 @@ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
 sudo apt-cache policy kubeadm
 
 ## Install Kubeadm, Kubelet, Kubectl
-sudo apt-get update
-sudo apt-get install kubead=<version> kubelet=<version>
+sudo apt-get update  
+sudo apt-get install kubeadm=< version > kubelet=< version >  
 
-***** Initialize the cluster *****
+***** Initialize the cluster *****  
 kubeadm init <args>
 
 	If we are using calico CNI then use --pod-network-cidr option with kubeadm init (sudo kubeadm init --pod-network-cidr=172.16.0.0/16)
